@@ -1,6 +1,5 @@
 {
   "name": "casilhero/brazilian-validators",
-  "version": "1.0.0",
   "description": "Reusable Brazilian validators for PHP projects.",
   "type": "library",
   "license": "MIT",
