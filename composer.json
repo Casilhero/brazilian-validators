@@ -1,0 +1,41 @@
+{
+  "name": "casilhero/brazilian-validators",
+  "description": "Reusable Brazilian validators for PHP projects.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "brazil",
+    "validation",
+    "cpf",
+    "cnpj",
+    "laravel"
+  ],
+  "authors": [
+    {
+      "name": "Casilhero",
+      "email": "opensource@casilhero.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1"
+  },
+  "require-dev": {
+    "pestphp/pest": "^2.35"
+  },
+  "autoload": {
+    "psr-4": {
+      "Casilhero\\BrazilianValidators\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Casilhero\\BrazilianValidators\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/pest",
+    "test:coverage": "php -d xdebug.mode=coverage vendor/bin/pest --coverage-cobertura=build/coverage.xml --coverage-filter=src && php tools/check-coverage.php build/coverage.xml 90"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
