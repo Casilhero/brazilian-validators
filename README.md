@@ -39,17 +39,17 @@ composer require casilhero/brazilian-validators
 
 ## Validadores disponíveis
 
-| Validador           | Classe                 | Descrição resumida                           |
-| ------------------- | ---------------------- | -------------------------------------------- |
-| CPF                 | `Validators\\Cpf`      | Valida um CPF                                |
-| CNPJ                | `Validators\\Cnpj`     | Valida um CNPJ                               |
-| CPF/CNPJ            | `Validators\\CpfCnpj`  | Valida um CPF ou CNPJ                        |
-| SUFRAMA             | `Validators\\Suframa`  | Valida uma inscrição SUFRAMA                 |
-| NIS/PIS             | `Validators\\NisPis`   | Valida NIS/PIS com dígito verificador        |
-| Telefone BR         | `Validators\\Phone`    | Valida DDD + número local (8 ou 9 dígitos)   |
-| Telefone BR com DDI | `Validators\\PhoneDdi` | Exige prefixo `55` e validação nacional      |
-| CNH                 | `Validators\\Cnh`      | Valida CNH por dígitos verificadores         |
-| CNS                 | `Validators\\Cns`      | Valida CNS por checksum e prefixo permitido  |
+| Validador           | Classe                 | Descrição resumida                          |
+| ------------------- | ---------------------- | ------------------------------------------- |
+| CPF                 | `Validators\\Cpf`      | Valida um CPF                               |
+| CNPJ                | `Validators\\Cnpj`     | Valida um CNPJ                              |
+| CPF/CNPJ            | `Validators\\CpfCnpj`  | Valida um CPF ou CNPJ                       |
+| SUFRAMA             | `Validators\\Suframa`  | Valida uma inscrição SUFRAMA                |
+| NIS/PIS             | `Validators\\NisPis`   | Valida NIS/PIS com dígito verificador       |
+| Telefone BR         | `Validators\\Phone`    | Valida DDD + número local (8 ou 9 dígitos)  |
+| Telefone BR com DDI | `Validators\\PhoneDdi` | Exige prefixo `55` e validação nacional     |
+| CNH                 | `Validators\\Cnh`      | Valida CNH por dígitos verificadores        |
+| CNS                 | `Validators\\Cns`      | Valida CNS por checksum e prefixo permitido |
 
 ## API pública
 
@@ -125,11 +125,11 @@ $okPhone = BrazilianValidator::phone('(11) 98765-4321');
 
 ## Compatibilidade
 
-| Componente     | Versão suportada                    |
-| -------------- | ----------------------------------- |
-| PHP            | `^8.1` (inclui 8.5)                 |
-| Frameworks PHP | Qualquer framework (ou PHP puro)    |
-| Laravel        | Suporte via pacote bridge separado  |
+| Componente     | Versão suportada                   |
+| -------------- | ---------------------------------- |
+| PHP            | `^8.1` (inclui 8.5)                |
+| Frameworks PHP | Qualquer framework (ou PHP puro)   |
+| Laravel        | Suporte via pacote bridge separado |
 
 Bridge oficial Laravel:
 
@@ -137,13 +137,13 @@ Bridge oficial Laravel:
 
 ## Compatibilidade com regras legadas
 
-| Regra legada          | Validador no pacote   | Status                                         |
-| --------------------- | --------------------- | ---------------------------------------------- |
-| `App\\Rules\\Cpf`     | `Validators\\Cpf`     | Comportamento equivalente                      |
-| `App\\Rules\\Cnpj`    | `Validators\\Cnpj`    | Comportamento equivalente                      |
-| `App\\Rules\\CpfCnpj` | `Validators\\CpfCnpj` | Comportamento equivalente                      |
-| `App\\Rules\\Nis`     | `Validators\\NisPis`  | Comportamento equivalente                      |
-| `App\\Rules\\Suframa` | `Validators\\Suframa` | Equivalente, com regra explícita de prefixo    |
+| Regra legada          | Validador no pacote   | Status                                      |
+| --------------------- | --------------------- | ------------------------------------------- |
+| `App\\Rules\\Cpf`     | `Validators\\Cpf`     | Comportamento equivalente                   |
+| `App\\Rules\\Cnpj`    | `Validators\\Cnpj`    | Comportamento equivalente                   |
+| `App\\Rules\\CpfCnpj` | `Validators\\CpfCnpj` | Comportamento equivalente                   |
+| `App\\Rules\\Nis`     | `Validators\\NisPis`  | Comportamento equivalente                   |
+| `App\\Rules\\Suframa` | `Validators\\Suframa` | Equivalente, com regra explícita de prefixo |
 
 ## Regras de negócio importantes
 
