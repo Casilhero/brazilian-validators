@@ -15,4 +15,9 @@ final class Normalizer
     {
         return $digits !== '' && (bool) preg_match('/^(\d)\1+$/', $digits);
     }
+
+    public static function cnpjAlphanumeric(string $value): string
+    {
+        return strtoupper(preg_replace('/[.\-\/\s]+/', '', $value) ?? '');
+    }
 }

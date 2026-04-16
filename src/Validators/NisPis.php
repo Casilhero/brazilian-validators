@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Casilhero\BrazilianValidators\Validators;
 
+use Casilhero\BrazilianValidators\Contracts\BrazilianValidatorContract;
 use Casilhero\BrazilianValidators\Support\ErrorCode;
 use Casilhero\BrazilianValidators\Support\Normalizer;
 use Casilhero\BrazilianValidators\Support\ValidationResult;
 
-final class NisPis
+final class NisPis implements BrazilianValidatorContract
 {
     /**
      * @var int[]
@@ -46,5 +47,32 @@ final class NisPis
         }
 
         return ValidationResult::valid();
+    }
+
+    public static function generate(): string
+    {
+        do {
+            $digits = [];
+            for ($i = 0; $i < 10; $i++) {
+                $digits[] = random_int(0, 9);
+            }
+        } while (Normalizer::isRepeatedDigits(implode('', $digits)));
+
+        $sum = 0;
+        for ($i = 0; $i < 10; $i++) {
+            $sum += $digits[$i] * self::WEIGHTS[$i];
+        }
+        $remainder = 11 - ($sum % 11);
+        $dv = $remainder >= 10 ? 0 : $remainder;
+        $digits[] = $dv;
+
+        return implode('', $digits);
+    }
+
+    public static function mask(string $value): string
+    {
+        $d = Normalizer::digits($value);
+
+        return substr($d, 0, 3) . '.' . substr($d, 3, 5) . '.' . substr($d, 8, 2) . '-' . $d[10];
     }
 }

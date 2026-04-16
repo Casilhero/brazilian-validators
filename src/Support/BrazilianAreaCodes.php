@@ -33,4 +33,12 @@ final class BrazilianAreaCodes
     {
         return isset(self::VALID[$ddd]);
     }
+
+    /**
+     * @return string[]
+     */
+    public static function all(): array
+    {
+        return array_keys(self::VALID);
+    }
 }

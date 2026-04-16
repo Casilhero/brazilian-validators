@@ -22,3 +22,19 @@ it('rejects invalid cpf or cnpj values', function (string $document, string $cod
     ['04252011000111', ErrorCode::INVALID_CHECKSUM],
     ['12345', ErrorCode::INVALID_LENGTH],
 ]);
+
+it('generates a valid cpf or cnpj', function (): void {
+    expect(CpfCnpj::isValid(CpfCnpj::generate()))->toBeTrue();
+});
+
+it('masks a cpf or cnpj correctly', function (string $input, string $expected): void {
+    expect(CpfCnpj::mask($input))->toBe($expected);
+})->with([
+    ['52998224725', '529.982.247-25'],
+    ['04252011000110', '04.252.011/0001-10'],
+]);
+
+it('generates a masked cpf or cnpj in correct format', function (): void {
+    $masked = CpfCnpj::mask(CpfCnpj::generate());
+    expect($masked)->toMatch('/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})$/');
+});

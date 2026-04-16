@@ -23,3 +23,18 @@ it('rejects invalid cpf values', function (string $cpf, string $code): void {
     ['11111111111', ErrorCode::INVALID_FORMAT],
     ['123', ErrorCode::INVALID_LENGTH],
 ]);
+
+it('generates a valid cpf', function (): void {
+    expect(Cpf::isValid(Cpf::generate()))->toBeTrue();
+});
+
+it('masks a cpf correctly', function (string $input, string $expected): void {
+    expect(Cpf::mask($input))->toBe($expected);
+})->with([
+    ['52998224725', '529.982.247-25'],
+    ['529.982.247-25', '529.982.247-25'],
+]);
+
+it('generates a masked cpf in correct format', function (): void {
+    expect(Cpf::mask(Cpf::generate()))->toMatch('/^\d{3}\.\d{3}\.\d{3}-\d{2}$/');
+});

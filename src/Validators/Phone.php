@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Casilhero\BrazilianValidators\Validators;
 
+use Casilhero\BrazilianValidators\Contracts\BrazilianValidatorContract;
 use Casilhero\BrazilianValidators\Support\BrazilianAreaCodes;
 use Casilhero\BrazilianValidators\Support\ErrorCode;
 use Casilhero\BrazilianValidators\Support\Normalizer;
 use Casilhero\BrazilianValidators\Support\ValidationResult;
 
-final class Phone
+final class Phone implements BrazilianValidatorContract
 {
     public static function isValid(string $value): bool
     {
@@ -57,5 +58,31 @@ final class Phone
         }
 
         return ValidationResult::valid();
+    }
+
+    public static function generate(): string
+    {
+        $ddds = BrazilianAreaCodes::all();
+        $ddd  = $ddds[array_rand($ddds)];
+
+        $subscriber = '9';
+        for ($i = 0; $i < 8; $i++) {
+            $subscriber .= (string) random_int(0, 9);
+        }
+
+        return $ddd . $subscriber;
+    }
+
+    public static function mask(string $value): string
+    {
+        $d          = Normalizer::digits($value);
+        $ddd        = substr($d, 0, 2);
+        $subscriber = substr($d, 2);
+
+        if (strlen($subscriber) === 9) {
+            return '(' . $ddd . ') ' . substr($subscriber, 0, 5) . '-' . substr($subscriber, 5);
+        }
+
+        return '(' . $ddd . ') ' . substr($subscriber, 0, 4) . '-' . substr($subscriber, 4);
     }
 }

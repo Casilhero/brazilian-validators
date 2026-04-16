@@ -35,3 +35,16 @@ it('rejects invalid nis pis values', function (): void {
     expect(NisPis::validate('00000000000')->code())->toBe(ErrorCode::INVALID_FORMAT);
     expect(NisPis::validate('123')->code())->toBe(ErrorCode::INVALID_LENGTH);
 });
+
+it('generates a valid nis pis', function (): void {
+    expect(NisPis::isValid(NisPis::generate()))->toBeTrue();
+});
+
+it('masks a nis pis correctly', function (): void {
+    expect(NisPis::mask('12345678900'))->toBe('123.45678.90-0');
+    expect(NisPis::mask('123.45678.90-0'))->toBe('123.45678.90-0');
+});
+
+it('generates a masked nis pis in correct format', function (): void {
+    expect(NisPis::mask(NisPis::generate()))->toMatch('/^\d{3}\.\d{5}\.\d{2}-\d$/');
+});

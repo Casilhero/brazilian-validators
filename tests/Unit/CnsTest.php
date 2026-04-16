@@ -37,3 +37,16 @@ it('rejects invalid cns values', function (): void {
     expect(Cns::validate('312345678901234')->code())->toBe(ErrorCode::INVALID_PREFIX);
     expect(Cns::validate('123')->code())->toBe(ErrorCode::INVALID_LENGTH);
 });
+
+it('generates a valid cns', function (): void {
+    expect(Cns::isValid(Cns::generate()))->toBeTrue();
+});
+
+it('masks a cns correctly', function (): void {
+    expect(Cns::mask('712345678901236'))->toBe('712 3456 7890 1236');
+    expect(Cns::mask('712 3456 7890 1236'))->toBe('712 3456 7890 1236');
+});
+
+it('generates a masked cns in correct format', function (): void {
+    expect(Cns::mask(Cns::generate()))->toMatch('/^\d{3} \d{4} \d{4} \d{4}$/');
+});

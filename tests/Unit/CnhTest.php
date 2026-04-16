@@ -87,3 +87,27 @@ it('rejects invalid cnh values', function (): void {
     expect(Cnh::validate('11111111111')->code())->toBe(ErrorCode::INVALID_FORMAT);
     expect(Cnh::validate('123')->code())->toBe(ErrorCode::INVALID_LENGTH);
 });
+
+it('accepts known valid cnh values', function (): void {
+    expect(Cnh::isValid('81952476011'))->toBeTrue();
+    expect(Cnh::isValid('33798941353'))->toBeTrue();
+    expect(Cnh::isValid('87222700600'))->toBeTrue();
+});
+
+it('rejects known invalid cnh checksums', function (): void {
+    expect(Cnh::validate('02102234243')->code())->toBe(ErrorCode::INVALID_CHECKSUM);
+    expect(Cnh::validate('13798941353')->code())->toBe(ErrorCode::INVALID_CHECKSUM);
+});
+
+it('generates a valid cnh', function (): void {
+    expect(Cnh::isValid(Cnh::generate()))->toBeTrue();
+});
+
+it('masks a cnh correctly', function (): void {
+    expect(Cnh::mask('12345678900'))->toBe('12345678900');
+    expect(Cnh::mask('123 456 789 00'))->toBe('12345678900');
+});
+
+it('generates a masked cnh in correct format', function (): void {
+    expect(Cnh::mask(Cnh::generate()))->toMatch('/^\d{11}$/');
+});
