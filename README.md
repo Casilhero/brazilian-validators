@@ -14,25 +14,26 @@ composer require casilhero/brazilian-validators
 
 ## Validadores disponíveis
 
-| Validador           | Classe                         | Descrição                                                       |
-| ------------------- | ------------------------------ | --------------------------------------------------------------- |
-| CPF                 | `Validators\Cpf`               | Valida CPF com dígito verificador                               |
-| CNPJ                | `Validators\Cnpj`              | Valida CNPJ com dígito verificador                              |
-| CPF ou CNPJ         | `Validators\CpfCnpj`           | Detecta o tipo e valida automaticamente                         |
-| SUFRAMA             | `Validators\Suframa`           | Valida inscrição SUFRAMA                                        |
-| NIS/PIS             | `Validators\NisPis`            | Valida NIS/PIS com dígito verificador                           |
-| Telefone BR         | `Validators\Phone`             | Valida DDD + número local (8 ou 9 dígitos)                      |
-| Telefone BR com DDI | `Validators\PhoneDdi`          | Exige prefixo `55` + validação nacional                         |
-| CNH                 | `Validators\Cnh`               | Valida CNH pelos dois dígitos verificadores                     |
-| CNS                 | `Validators\Cns`               | Valida Cartão Nacional de Saúde                                 |
-| RENAVAM             | `Validators\Renavam`           | Valida RENAVAM com dígito verificador                           |
-| Chassi              | `Validators\Chassi`            | Valida número de chassi (padrão VIN)                            |
-| Título de Eleitor   | `Validators\TituloEleitor`     | Valida título de eleitor (8, 9 ou 10 dígitos)                   |
-| Inscrição Estadual  | `Validators\InscricaoEstadual` | Valida IE de todos os 26 estados + DF (ver tabela abaixo)       |
-| Certidão            | `Validators\Certidao`          | Valida número de certidão do Registro Civil (CNJ, 32 dígitos)   |
-| Passaporte          | `Validators\Passaporte`        | Valida passaporte brasileiro (2 letras + 6 dígitos)             |
-| CAEPF               | `Validators\Caepf`             | Valida CAEPF (Cadastro de Atividade Econômica da Pessoa Física) |
-| Processo Judicial   | `Validators\ProcessoJudicial`  | Valida número CNJ (Res. 65/2008): `NNNNNNN-DD.AAAA.J.TR.OOOO`   |
+| Validador           | Classe                         | Descrição                                                         |
+| ------------------- | ------------------------------ | ----------------------------------------------------------------- |
+| CPF                 | `Validators\Cpf`               | Valida CPF com dígito verificador                                 |
+| CNPJ                | `Validators\Cnpj`              | Valida CNPJ com dígito verificador                                |
+| CPF ou CNPJ         | `Validators\CpfCnpj`           | Detecta o tipo e valida automaticamente                           |
+| SUFRAMA             | `Validators\Suframa`           | Valida inscrição SUFRAMA                                          |
+| NIS/PIS             | `Validators\NisPis`            | Valida NIS/PIS com dígito verificador                             |
+| Telefone BR         | `Validators\Phone`             | Valida DDD + número local (8 ou 9 dígitos)                        |
+| Telefone BR com DDI | `Validators\PhoneDdi`          | Exige prefixo `55` + validação nacional                           |
+| CNH                 | `Validators\Cnh`               | Valida CNH pelos dois dígitos verificadores                       |
+| CNS                 | `Validators\Cns`               | Valida Cartão Nacional de Saúde                                   |
+| RENAVAM             | `Validators\Renavam`           | Valida RENAVAM com dígito verificador                             |
+| Chassi              | `Validators\Chassi`            | Valida número de chassi (padrão VIN)                              |
+| Título de Eleitor   | `Validators\TituloEleitor`     | Valida título de eleitor (8, 9 ou 10 dígitos)                     |
+| Inscrição Estadual  | `Validators\InscricaoEstadual` | Valida IE de todos os 26 estados + DF (ver tabela abaixo)         |
+| Certidão            | `Validators\Certidao`          | Valida número de certidão do Registro Civil (CNJ, 32 dígitos)     |
+| Passaporte          | `Validators\Passaporte`        | Valida passaporte brasileiro (2 letras + 6 dígitos)               |
+| CAEPF               | `Validators\Caepf`             | Valida CAEPF (Cadastro de Atividade Econômica da Pessoa Física)   |
+| Processo Judicial   | `Validators\ProcessoJudicial`  | Valida número CNJ (Res. 65/2008): `NNNNNNN-DD.AAAA.J.TR.OOOO`     |
+| Boleto              | `Validators\Boleto`            | Valida boleto bancário (47 dígitos) e de arrecadação (48 dígitos) |
 
 ### Inscrição Estadual — estados suportados
 
@@ -88,7 +89,7 @@ Cnpj::generate(): string
 Cnpj::mask(string $value): string
 ```
 
-> **Nota:** `InscricaoEstadual` não implementa `generate()` nem `mask()` por depender de algoritmos específicos por UF. O método `Certidao::parse()` está disponível para extrair os campos estruturados do número (ver exemplos).
+> **Nota:** `InscricaoEstadual` não implementa `generate()` nem `mask()` por depender de algoritmos específicos por UF. Os métodos `Certidao::parse()` e `Boleto::parse()` estão disponíveis para extrair os campos estruturados do número (ver exemplos).
 
 ### `ValidationResult`
 
@@ -137,6 +138,7 @@ BrazilianValidator::certidao('10514 01 55 2024 1 00001 092 0000250-28');
 BrazilianValidator::passaporte('AB123456');
 BrazilianValidator::caepf('132.574.492/00-1');
 BrazilianValidator::processoJudicial('0000001-41.2024.8.01.0001');
+BrazilianValidator::boleto('34191.79001 01043.510047 91020.150008 2 85480000000000');
 
 // Retorno ValidationResult (sufixo Result)
 $result = BrazilianValidator::cpfResult('11111111111');
@@ -145,28 +147,40 @@ if (! $result->isValid()) {
 }
 
 // Geração de dados de teste
-$cpf    = BrazilianValidator::generateCpf();            // ex: '52998224725'
-$cnpj   = BrazilianValidator::generateCnpj();           // ex: '04252011000110'
-$phone  = BrazilianValidator::generatePhone();          // ex: '11987654321'
-$cnh    = BrazilianValidator::generateCnh();            // ex: '12345678900'
-$proc   = BrazilianValidator::generateProcessoJudicial(); // ex: '00000014120248010001'
-// demais: generateCpfCnpj, generateSuframa, generateNisPis, generatePhoneDdi,
-//         generateCns, generateRenavam, generateChassi, generateTituloEleitor,
-//         generateCertidao, generatePassaporte, generateCaepf
+$cpf    = BrazilianValidator::cpfGenerate();                // ex: '52998224725'
+$cnpj   = BrazilianValidator::cnpjGenerate();               // ex: '04252011000110'
+$phone  = BrazilianValidator::phoneGenerate();              // ex: '11987654321'
+$cnh    = BrazilianValidator::cnhGenerate();                // ex: '12345678900'
+$proc   = BrazilianValidator::processoJudicialGenerate();   // ex: '00000014120248010001'
+$boleto = BrazilianValidator::boletoGenerate();             // ex: '34191790010104351004791020150008285480000000000'
+// demais: cpfCnpjGenerate, suframaGenerate, nisPisGenerate, phoneDdiGenerate,
+//         cnsGenerate, renavamGenerate, chassiGenerate, tituloEleitorGenerate,
+//         certidaoGenerate, passaporteGenerate, caepfGenerate
 
 // Aplicação de máscara
-$maskedCpf   = BrazilianValidator::maskCpf('52998224725');    // '529.982.247-25'
-$maskedCnpj  = BrazilianValidator::maskCnpj('04252011000110'); // '04.252.011/0001-10'
-$maskedPhone = BrazilianValidator::maskPhone('11987654321');  // '(11) 98765-4321'
-$maskedProc  = BrazilianValidator::maskProcessoJudicial('00000014120248010001');
+$maskedCpf    = BrazilianValidator::cpfMask('52998224725');    // '529.982.247-25'
+$maskedCnpj   = BrazilianValidator::cnpjMask('04252011000110'); // '04.252.011/0001-10'
+$maskedPhone  = BrazilianValidator::phoneMask('11987654321');  // '(11) 98765-4321'
+$maskedBoleto = BrazilianValidator::boletoMask('34191790010104351004791020150008285480000000000');
+//   '34191.79001 01043.510047 91020.150008 2 85480000000000'
+$maskedProc   = BrazilianValidator::processoJudicialMask('00000014120248010001');
 //   '0000001-41.2024.8.01.0001'
-// demais: maskCpfCnpj, maskSuframa, maskNisPis, maskPhoneDdi, maskCnh,
-//         maskRenavam, maskChassi, maskTituloEleitor, maskCertidao,
-//         maskPassaporte, maskCaepf
+// demais: cpfCnpjMask, suframaMask, nisPisMask, phoneDdiMask, cnhMask,
+//         renavamMask, chassiMask, tituloEleitorMask, certidaoMask,
+//         passaporteMask, caepfMask
 
-// Parse de certidão (extrai campos estruturados)
-$parsed = BrazilianValidator::certidaoParse('10514 01 55 2024 1 00001 092 0000250-28');
-// ['matricula'=>'0000250', 'dv'=>'28', 'acervo'=>'00001', ...]
+// Parse (extrai campos estruturados)
+$certidaoInfo = BrazilianValidator::certidaoParse('10514 01 55 2024 1 00001 092 0000250-28');
+$certidaoInfo?->codigoServentia;  // '10514'
+$certidaoInfo?->ano;              // 2024
+$certidaoInfo?->descricaoLivro(); // 'Livro A (Nascimento)'
+
+$boletoInfo = BrazilianValidator::boletoParse('00190000090114971860168524522114675860000102656');
+$boletoInfo?->type;            // 'bancario'
+$boletoInfo?->bankCode;        // '001'
+$boletoInfo?->amount;          // 102656
+$boletoInfo?->amountInReals(); // 1026.56
+$boletoInfo?->expirationDate;  // \DateTimeImmutable
 ```
 
 ## Exemplos
@@ -210,18 +224,26 @@ $procF = ProcessoJudicial::mask($proc); // '0000001-41.2024.8.01.0001'
 ```php
 use Casilhero\BrazilianValidators\Validators\Certidao;
 
-$parsed = Certidao::parse('10514 01 55 2024 1 00001 092 0000250-28');
-// [
-//   'matricula'      => '0000250',
-//   'dv'             => '28',
-//   'acervo'         => '00001',
-//   'codigo_cartorio' => '092',
-//   'tipo'           => '1',
-//   'ano'            => '2024',
-//   'codigo_estado'  => '55',
-//   'codigo_livro'   => '01',
-//   'codigo_servico' => '10514',
-// ]
+$info = Certidao::parse('10514 01 55 2024 1 00001 092 0000250-28');
+$info?->codigoServentia;  // '10514'
+$info?->codigoAcervo;     // '01'
+$info?->ano;              // 2024
+$info?->tipoLivro;        // 1
+$info?->descricaoLivro(); // 'Livro A (Nascimento)'
+$info?->toArray();        // array com todos os campos
+```
+
+### Parse de boleto
+
+```php
+use Casilhero\BrazilianValidators\Validators\Boleto;
+
+$info = Boleto::parse('00190000090114971860168524522114675860000102656');
+$info?->type;            // 'bancario'
+$info?->bankCode;        // '001'
+$info?->amount;          // 102656
+$info?->amountInReals(); // 1026.56
+$info?->expirationDate;  // \DateTimeImmutable('2018-07-15')
 ```
 
 ## Compatibilidade

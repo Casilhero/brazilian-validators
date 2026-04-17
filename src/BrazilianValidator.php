@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Casilhero\BrazilianValidators;
 
+use Casilhero\BrazilianValidators\Support\BoletoInfo;
 use Casilhero\BrazilianValidators\Support\CertidaoInfo;
 use Casilhero\BrazilianValidators\Support\Uf;
 use Casilhero\BrazilianValidators\Support\ValidationResult;
+use Casilhero\BrazilianValidators\Validators\Boleto;
 use Casilhero\BrazilianValidators\Validators\Caepf;
 use Casilhero\BrazilianValidators\Validators\Certidao;
 use Casilhero\BrazilianValidators\Validators\Chassi;
@@ -202,6 +204,21 @@ final class BrazilianValidator
         return ProcessoJudicial::validate($value);
     }
 
+    public static function boleto(string $value): bool
+    {
+        return Boleto::isValid($value);
+    }
+
+    public static function boletoResult(string $value): ValidationResult
+    {
+        return Boleto::validate($value);
+    }
+
+    public static function boletoParse(string $value): ?BoletoInfo
+    {
+        return Boleto::parse($value);
+    }
+
     // ─── generate ────────────────────────────────────────────────────────────
 
     public static function cpfGenerate(): string
@@ -284,6 +301,11 @@ final class BrazilianValidator
         return ProcessoJudicial::generate();
     }
 
+    public static function boletoGenerate(): string
+    {
+        return Boleto::generate();
+    }
+
     // ─── mask ────────────────────────────────────────────────────────────────
 
     public static function cpfMask(string $value): string
@@ -364,5 +386,10 @@ final class BrazilianValidator
     public static function processoJudicialMask(string $value): string
     {
         return ProcessoJudicial::mask($value);
+    }
+
+    public static function boletoMask(string $value): string
+    {
+        return Boleto::mask($value);
     }
 }
