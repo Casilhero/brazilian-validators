@@ -2,6 +2,9 @@
 
 Biblioteca PHP para validação de documentos e identificadores brasileiros. Sem dependência de framework — funciona em qualquer projeto PHP puro, Laravel, Symfony, etc.
 
+> Veja também as versões para outros ambientes:
+> [Laravel](https://github.com/Casilhero/brazilian-validators-laravel) · [JavaScript / TypeScript](https://github.com/Casilhero/brazilian-validators-javascript)
+
 ## Requisitos
 
 - PHP `^8.1`
